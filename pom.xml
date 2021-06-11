@@ -26,24 +26,19 @@
         <system>Github Actions</system>
         <url>https://github.com/baloise/codefreeze/actions</url>
     </ciManagement>
+    <issueManagement>
+        <system>Github</system>
+        <url>https://github.com/baloise/codefreeze/issues</url>
+    </issueManagement>
+    <scm>
+        <connection>scm:git:https://github.com/baloise/codefreeze.git</connection>
+        <developerConnection>scm:git:https://github.com/baloise/codefreeze.git</developerConnection>
+        <url>https://github.com/baloise/codefreeze.git</url>
+    </scm>
 
     <name>codefreeze</name>
     <description>This is the Codefreeze plugin for Atlassian Bitbucket Server.</description>
     <url>https://github.com/baloise/codefreeze</url>
-
-    <scm>
-        <url>https://github.com/baloise/codefreeze.git</url>
-        <connection>scm:git:https://github.com/baloise/codefreeze.git</connection>
-        <tag>HEAD</tag>
-    </scm>
-
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>GitHub Baloise Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/baloise/codefreeze</url>
-        </repository>
-    </distributionManagement>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
