@@ -1,6 +1,6 @@
-#Codefreeze
+# Codefreeze
 
-##Short Documentation
+## Short Documentation
 
 *Codefreeze* is a basic plugin for [Atlassian Bitbucket](https://www.atlassian.com/software/bitbucket) that allows
 you ahead of time set date from which pushing directly to specified branches is no longer possible.
