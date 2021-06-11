@@ -1,0 +1,131 @@
+{namespace codefreeze.templates}
+
+/**
+ * @param repository Repository object
+ * @param branches
+ * @param isAdmin
+ * @param error
+ */
+{template .repositorySettings}
+<html>
+<head>
+    <meta name="decorator" content="bitbucket.repository.settings">
+    <meta name="projectKey" content="{$repository.project.key}">
+    <meta name="repositorySlug" content="{$repository.slug}">
+    <meta name="activeTab" content="codefreeze-repository-settings-plugin-tab">
+    <title>{$repository.slug} / Code freeze settings</title>
+</head>
+<body>
+    <h3>Repository: {$repository.slug}</h3>
+    <p>Codefreeze configuration page.</p>
+    {if $error}
+        Encountered Error
+    {/if}
+
+    {if $isAdmin}
+    <p>
+       <a href="?edit" class="aui-button  aui-button-primary">Freeze branch</a>
+    </p>
+    {/if}
+    <table class="aui">
+            <thead>
+            <tr>
+                <th id="branch">branch</th>
+                <th id="date">date</th>
+                <th id="action">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {foreach $branch in $branches}
+            <tr>
+                <td headers="branch">{$branch.branch}</td>
+                <td headers="date">{call aui.form.input}
+                                                            {param id: 'date' /}
+                                                            {param type: 'date' /}
+                                                            {param isDisabled: true /}
+                                                            {param value: $branch.date/}
+                                                         {/call}</td>
+                {if $isAdmin}
+                <td class="action" headers="action">
+                                        <ul class="menu">
+//                                            <li>
+//                                                <a href="?edit&id={$branch.ID}">Edit</a>
+//                                            </li>
+                                            <li>
+                                                <a href="?delete&id={$branch.ID}">Delete</a>
+                                            </li>
+                                        </ul>
+                                    </td>
+                {/if}
+            </tr>
+            {ifempty}
+                    <tr>
+                         <td colspan="4" style="text-align:center;">No frozen branches configured.</td>
+                     </tr>
+            {/foreach}
+            </tbody>
+    </table>
+</body>
+</html>
+{/template}
+
+/**
+ * @param repository Repository object
+ * @param branch
+ */
+{template .branchEdit}
+<html>
+<head>
+    <meta name="decorator" content="bitbucket.repository.settings">
+    <meta name="projectKey" content="{$repository.project.key}">
+    <meta name="repositorySlug" content="{$repository.slug}">
+    <meta name="activeTab" content="codefreeze-repository-settings-plugin-tab">
+    <title>{$repository.slug} / Code freeze settings</title>
+</head>
+<body>
+    <header class="aui-page-header">
+           <div class="aui-page-header-inner">
+               <div class="aui-page-header-main">
+                   <ol class="aui-nav aui-nav-breadcrumbs">
+                     <li><a class="active" href="?">Branch Freezes</a></li>
+                   </ol>
+                   {if $branch}
+                   <h2>Edit {$branch.branch}</h2>
+                   {else}
+                   <h2>Add new branchFreeze</h2>
+                   {/if}
+               </div>
+           </div>
+       </header>
+       {call aui.form.form}
+                {param action: '' /}
+                {param content}
+                   {call aui.form.textField}
+                       {param id: 'branch' /}
+                       {param labelContent: 'Branch name' /}
+                   {/call}
+                   {call aui.form.fieldGroup}
+                   {param content}
+                        {call aui.form.label}
+                            {param forField: 'date' /}
+                            {param content: 'Date from: ' /}
+                        {/call}
+                        {call aui.form.input}
+                            {param id: 'date' /}
+                            {param type: 'date' /}
+                             {param value:  $branch ? $branch.date : '' /}
+                        {/call}
+                   {/param}
+                   {/call}
+                   {call aui.form.fieldGroup}
+                       {param content}
+                            {call aui.form.submit}
+                                {param text: 'add'/}
+                            {/call}
+                       {/param}
+                   {/call}
+                {/param}
+       {/call}
+</body>
+</html>
+{/template}

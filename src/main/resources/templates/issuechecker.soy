@@ -1,0 +1,158 @@
+{namespace issuechecker.templates}
+
+/**
+ * @param repository Repository object
+ * @param setting
+ * @param userWhiteListJson
+ * @param groupWhiteListJson
+ * @param? jiraFieldsJson
+ * @param? jiraLink
+ * @param? scriptError
+ * @param? exampleScript
+ * @param? script used to save not displayed version in case of error
+ * @param error
+ */
+{template .repositorySettings}
+    <html xmlns:aui="http://www.w3.org/1999/xhtml">
+        {webResourceManager_requireResourcesForContext('codefreezeUserSelector')}
+        {webResourceManager_requireResourcesForContext('codefreezeJiraFieldSelector')}
+        {webResourceManager_requireResourcesForContext('codefreezeAddBranchDialog')}
+    <head>
+        <meta name="decorator" content="bitbucket.repository.settings">
+        <meta name="projectKey" content="{$repository.project.key}">
+        <meta name="repositorySlug" content="{$repository.slug}">
+        <meta name="activeTab" content="issuechecker-repository-settings-plugin-tab">
+        <title>{$repository.slug} / IssueChecker settings</title>
+    </head>
+    <body>
+    <div id="aui-message-bar"></div>
+    <div id="issueCheckerWhiteListUsers" style="display: none;">{$userWhiteListJson}</div>
+    <div id="issueCheckerWhiteListGroups" style="display: none;">{$groupWhiteListJson}</div>
+        {if $jiraFieldsJson}
+        <div id="issueCheckerFields" style="display: none;">{$jiraFieldsJson}</div>
+        {/if}
+        {if $jiraLink}
+        <div id="jiraLink" style="display: none;">{$jiraLink}</div>
+        {/if}
+    <h3>Repository: {$repository.slug}</h3>
+    <p>IssueChecker configuration page.</p>
+        {if $error}
+        Encountered Error
+        {/if}
+    <h2>Protected branches</h2>
+    <table class="aui">
+        <thead>
+        <tr>
+            <th id="branch">branch</th>
+            <th id="action">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <section id="add-branch-dialog" class="aui-dialog2 aui-dialog2-small aui-layer" role="dialog" aria-hidden="true">
+            <header class="aui-dialog2-header">
+                <h2 class="aui-dialog2-header-main">Add Branch</h2>
+                <a class="aui-dialog2-header-close">
+                    <span class="aui-icon aui-icon-small aui-iconfont-close-dialog">Close</span>
+                </a>
+            </header>
+            <form method="post" class="aui">
+            <div class="aui-dialog2-content">
+                <p>Branch pattern</p>
+                <input id="newbranchInput" type="text" width="20%" name="newbranch">
+            </div>
+                <footer class="aui-dialog2-footer">
+                    <div class="aui-dialog2-footer-actions">
+                        <input class="aui-button aui-button-primary confirm" id="add-branch-dialog-submit-button" type="submit" value="ADD">
+                        <button class="aui-button aui-button-link cancel"  id="dialog-cancel-button" resolved="">Cancel</button>
+                    </div>
+                </footer>
+            </form>
+        </section>
+            {foreach $branch in $setting.branches}
+            <tr id="BranchRow{$branch.id}">
+                <td headers="branch">{call aui.form.input}
+                    {param id: 'branch' /}
+                    {param type: 'string' /}
+                    {param isDisabled: true /}
+                    {param value: $branch.name /}{/call}</td>
+                <td headers="action">
+                    <div class="aui-buttons">
+                        <button class="aui-button remove-branch-button" name="{$branch.id}">X</button>
+//                    {call aui.buttons.buttons}
+//                        {param content}
+//                            {call aui.buttons.button}
+//                                {param text: 'Remove' /}
+//                                {param isDisabled: $isAdmin /}
+//                                {param id: 'r'/}
+//                            {/call}
+//                        {/param}
+//                    {/call}
+                    </div>
+                </td>
+            </tr>
+            {ifempty}
+            <tr>
+                <td colspan="4" style="text-align:center;">No branches configured.</td>
+            </tr>
+            {/foreach}
+        <tr>
+            <td colspan="2" style="text-align:left;">
+                <button class="aui-button aui-button-primary" id="add-branch-button">Add Branch</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <p></p>
+        {if $scriptError}
+        <div class="aui-message aui-message-error">
+            <p class="title">
+            <strong>Script was not saved:</strong>
+            </p>
+            <p>{$scriptError}</p>
+        </div>
+        {/if}
+    <form class="aui" method="post" action="">
+        <fieldset class="group">
+            <legend>Processing script</legend>
+            <textarea name="script" rows="40" cols="100"
+                    {if $exampleScript} placeholder="{$exampleScript}" {/if}>
+                {if $script}
+                    {$script}
+                {else}
+                    {$setting.script}
+                {/if}
+            </textarea>
+            <br>
+            <input type="checkbox" id="limitedScriptCheckbox" name="limitedScript" value="{$setting.isScriptLimited}">
+            <label for="limitedScriptCheckbox">Run Script in Sandbox</label>
+            <br>
+            <input type="submit" value="SAVE" class="aui-button aui-button-primary"/>
+        </fieldset>
+    </form>
+    <form class="aui" method="post">
+        <fieldset class="group">
+            <legend>WhiteLists:</legend>
+            <label>Users</label>
+            <br>
+            <input type='hidden' name='users' id='code-freeze-user-selector'/>
+            <br>
+            <label>Groups</label>
+            <br>
+            <input type='hidden' name='groups' id='code-freeze-group-selector'/>
+            <br>
+            <input type="submit" value="SAVE" class="aui-button aui-button-primary"/>
+        </fieldset>
+    </form>
+        {if $jiraLink}
+        <form class="aui" method="post">
+            <fieldset class="group">
+                <legend>Jira issue fields</legend>
+                <input type='hidden' name='fields' id='code-freeze-jira-field-selector'/>
+                <br>
+                <input type="submit" value="SAVE" class="aui-button aui-button-primary"/>
+            </fieldset>
+        </form>
+        {/if}
+    </body>
+    </html>
+{/template}

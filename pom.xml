@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Baloise Group
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <organization>
+        <name>Baloise Group</name>
+        <url>https://www.baloise.com</url>
+    </organization>
+
+    <groupId>com.baloise.open.bitbucket</groupId>
+    <artifactId>codefreeze</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>atlassian-plugin</packaging>
+
+    <ciManagement>
+        <system>Github Actions</system>
+        <url>https://github.com/baloise/codefreeze/actions</url>
+    </ciManagement>
+
+    <name>codefreeze</name>
+    <description>This is the Codefreeze plugin for Atlassian Bitbucket Server.</description>
+    <url>https://github.com/baloise/codefreeze</url>
+
+    <scm>
+        <url>https://github.com/baloise/codefreeze.git</url>
+        <connection>scm:git:https://github.com/baloise/codefreeze.git</connection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Baloise Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/baloise/codefreeze</url>
+        </repository>
+    </distributionManagement>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
+        <junit.jupiter.version>5.2.0</junit.jupiter.version>
+        <junit.platform.version>1.2.0</junit.platform.version>
+        <org.hamcrest.version>1.3</org.hamcrest.version>
+
+        <bitbucket.data.version>6.5.1</bitbucket.data.version>
+        <bitbucket.version>6.5.1</bitbucket.version>
+        <amps.version>8.0.2</amps.version>
+        <allow.google.tracking>false</allow.google.tracking>
+        <!-- This key is used to keep the consistency between the key in atlassian-plugin.xml and the key to generate bundle. -->
+        <atlassian.plugin.key>${project.groupId}.${project.artifactId}</atlassian.plugin.key>
+        <atlassian.spring.scanner.version>2.1.7</atlassian.spring.scanner.version>
+        <commons.lang3.version>3.5</commons.lang3.version>
+        <gson.version>2.8.0</gson.version>
+        <javax.inject.version>1</javax.inject.version>
+        <jsr311.version>1.1.1</jsr311.version>
+        <junit.libversion>4.12</junit.libversion>
+        <plugin.testrunner.version>2.0.1</plugin.testrunner.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
+        <!-- Neus IQ Plugin -->
+        <clm.serverUrl>https://itsec.balgroupit.com/</clm.serverUrl>
+        <clm.applicationId>com.baloise.open.bitbucket.codefreeze</clm.applicationId>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.atlassian.bitbucket.server</groupId>
+                <artifactId>bitbucket-parent</artifactId>
+                <version>${bitbucket.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!-- Bundled Dependencies -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${gson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy</artifactId>
+            <version>3.0.8</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20190722</version>
+        </dependency>
+
+        <!--Applink integration-->
+        <dependency>
+            <groupId>com.atlassian.applinks</groupId>
+            <artifactId>applinks-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!--jira integration dependency-->
+        <dependency>
+            <groupId>com.atlassian.bitbucket.server</groupId>
+            <artifactId>bitbucket-jira-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!--ActiveObject dependency-->
+        <dependency>
+            <groupId>com.atlassian.activeobjects</groupId>
+            <artifactId>activeobjects-plugin</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!--Servlet / Config sites dependencies-->
+        <dependency>
+            <groupId>com.atlassian.plugins</groupId>
+            <artifactId>atlassian-plugins-webresource</artifactId>
+            <version>3.7.4</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.soy</groupId>
+            <artifactId>soy-template-renderer-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!--Autogenerated dependencies-->
+        <dependency>
+            <groupId>com.atlassian.templaterenderer</groupId>
+            <artifactId>atlassian-template-renderer-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.sal</groupId>
+            <artifactId>sal-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.bitbucket.server</groupId>
+            <artifactId>bitbucket-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.bitbucket.server</groupId>
+            <artifactId>bitbucket-spi</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.bitbucket.server</groupId>
+            <artifactId>bitbucket-page-objects</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons.lang3.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.plugin</groupId>
+            <artifactId>atlassian-spring-scanner-annotation</artifactId>
+            <version>${atlassian.spring.scanner.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>${javax.inject.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>jsr311-api</artifactId>
+            <version>${jsr311.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.4</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.plugins.rest</groupId>
+            <artifactId>atlassian-rest-common</artifactId>
+            <version>1.0.2</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.libversion}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- WIRED TEST RUNNER DEPENDENCIES -->
+        <dependency>
+            <groupId>com.atlassian.plugins</groupId>
+            <artifactId>atlassian-plugins-osgi-testrunner</artifactId>
+            <version>${plugin.testrunner.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.wink</groupId>
+            <artifactId>wink-client</artifactId>
+            <version>1.4</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.8.5</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.8.2</version>
+            </plugin>
+            <plugin>
+                <groupId>com.atlassian.maven.plugins</groupId>
+                <artifactId>bitbucket-maven-plugin</artifactId>
+                <version>${amps.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <products>
+                        <product>
+                            <id>bitbucket</id>
+                            <instanceId>bitbucket</instanceId>
+                            <version>${bitbucket.version}</version>
+                            <dataVersion>${bitbucket.data.version}</dataVersion>
+                        </product>
+                    </products>
+                    <instructions>
+                        <Atlassian-Plugin-Key>${atlassian.plugin.key}</Atlassian-Plugin-Key>
+                        <!-- Add package to export here -->
+                        <Export-Package>com.baloise.open.bitbucket.api,</Export-Package>
+                        <!-- Add package import here -->
+                        <Import-Package>org.springframework.osgi.*;resolution:="optional",
+                            org.eclipse.gemini.blueprint.*;resolution:="optional", com.thoughtworks.xstream.*;
+                            resolution:="optional", org.apache.commons.cli.*; resolution:="optional", org.apache.ivy.*;
+                            resolution:="optional", org.fusesource.jansi.*; resolution:="optional", com.ibm.uvm.*;
+                            resolution:="optional", *
+                        </Import-Package>
+                        <!-- Ensure plugin is Spring powered -->
+                        <Spring-Context>*</Spring-Context>
+                    </instructions>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.atlassian.plugin</groupId>
+                <artifactId>atlassian-spring-scanner-maven-plugin</artifactId>
+                <version>${atlassian.spring.scanner.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>atlassian-spring-scanner</goal>
+                        </goals>
+                        <phase>process-classes</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <scannedDependencies>
+                        <dependency>
+                            <groupId>com.atlassian.plugin</groupId>
+                            <artifactId>atlassian-spring-scanner-external-jar</artifactId>
+                        </dependency>
+                    </scannedDependencies>
+                    <verbose>false</verbose>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.sonatype.clm</groupId>
+                <artifactId>clm-maven-plugin</artifactId>
+                <version>2.7.0-01</version>
+                <configuration>
+                    <stage>develop</stage>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

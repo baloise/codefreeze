@@ -1,0 +1,36 @@
+[
+  {
+    "id": "customfield_18353",
+    "name": "Organizations",
+    "custom": true,
+    "orderable": true,
+    "navigable": true,
+    "searchable": true,
+    "clauseNames": [
+      "cf[18353]",
+      "Organizations"
+    ],
+    "schema": {
+      "type": "array",
+      "items": "sd-customerorganization",
+      "custom": "com.atlassian.servicedesk:sd-customer-organizations",
+      "customId": 18353
+    }
+  },
+  {
+    "id": "fixVersions",
+    "name": "Fix Version/s",
+    "custom": false,
+    "orderable": true,
+    "navigable": true,
+    "searchable": true,
+    "clauseNames": [
+      "fixVersion"
+    ],
+    "schema": {
+      "type": "array",
+      "items": "version",
+      "system": "fixVersions"
+    }
+  }
+]

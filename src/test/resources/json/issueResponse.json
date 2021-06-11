@@ -1,0 +1,44 @@
+{
+  "expand": "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
+  "id": "488463",
+  "self": "https://jira.baloisenet.com/atlassian/rest/api/latest/issue/488463",
+  "key": "GALRE-64781",
+  "fields": {
+    "issuetype": {
+      "self": "https://jira.baloisenet.com/atlassian/rest/api/2/issuetype/3",
+      "id": "3",
+      "description": "A task that needs to be done.",
+      "iconUrl": "https://jira.baloisenet.com/atlassian/secure/viewavatar?size=xsmall&avatarId=33148&avatarType=issuetype",
+      "name": "Task",
+      "subtask": false,
+      "avatarId": 33148
+    },
+    "fixVersions": [
+      {
+        "self": "https://jira.baloisenet.com/atlassian/rest/api/2/version/105645",
+        "id": "105645",
+        "description": "Fliesst nicht ins Sprint Reporting vom PMO ein.",
+        "name": "NotInReport",
+        "archived": false,
+        "released": false
+      },
+      {
+        "self": "https://jira.baloisenet.com/atlassian/rest/api/2/version/105646",
+        "id": "105646",
+        "description": "Release GWR_IS 10.2.3.0",
+        "name": "GWR_IS 10.2.0.0",
+        "archived": false,
+        "released": false
+      },
+      {
+        "self": "https://jira.baloisenet.com/atlassian/rest/api/2/version/105647",
+        "id": "105647",
+        "description": "Release GWR_IS 10.2.0.0",
+        "name": "GWR_IS 10.2.1.0",
+        "archived": false,
+        "released": false
+      }
+    ],
+    "customfield_12250": "1|hyhfie:"
+  }
+}
