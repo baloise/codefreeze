@@ -1,30 +1,42 @@
 name: Release
 
 on:
-  push:
-    # Sequence of patterns matched against refs/tags
+  create:
     tags:
-      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+      - '*'
 
 jobs:
   build:
-    name: Create Release
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@master # don't get confused by @master - it is the version of the checkout action. You repo will be checked out with ${{ github.ref }}
-      - name: Deploy to Github Package Registry
-        env:
-            GITHUB_USERNAME: x-access-token
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: mvn --settings .github/maven-settings.xml deploy
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+      - name: Checkout Source 🛎️
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v1
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
+          java-version: '11'
+
+      - name: Build with Maven 🔧
+        run: mvn -B package --file pom.xml
+
+      - name: Copy artifacts
+        run: |
+          mkdir artifacts
+          cp target/*.jar artifacts/
+          cp target/*.obr artifacts/
+          ls artifacts
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          path: artifacts
+
+      - name: Get tag name
+        run: echo "TAG_NAME=$(echo ${GITHUB_REF#refs/*/} | tr / -)" >> $GITHUB_ENV
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
