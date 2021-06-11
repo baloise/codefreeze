@@ -40,7 +40,7 @@ The authorization needs to be defined in JIRA:
 # Open Issues
 - Reinit the Github task https://github.com/baloise/open-source/issues/117
 
-##Hints for Developing Plugins
+## Hints for Developing Plugins
 
 Here are the SDK commands you'll use immediately:
 
@@ -76,5 +76,5 @@ Example:
 
 `localhost:7990/bitbucket/rest/codefreeze/1.0/projects/PROJECT_1/repos/rep_1/branchfreeze`
 
-##Open Source
+## Open Source
 This project is open source and follows the [Baloise Open Source Guidelines](https://baloise.github.io/open-source/docs/arc42/).
