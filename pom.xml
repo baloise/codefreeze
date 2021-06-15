@@ -45,30 +45,30 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
-        <junit.jupiter.version>5.2.0</junit.jupiter.version>
-        <junit.platform.version>1.2.0</junit.platform.version>
-        <org.hamcrest.version>1.3</org.hamcrest.version>
+        <junit.version>5.5.2</junit.version>
+        <mockito-all.version>1.8.5</mockito-all.version>
+        <plugin.testrunner.version>2.0.1</plugin.testrunner.version>
 
         <bitbucket.data.version>6.5.1</bitbucket.data.version>
         <bitbucket.version>6.5.1</bitbucket.version>
         <amps.version>8.0.2</amps.version>
         <allow.google.tracking>false</allow.google.tracking>
+
         <!-- This key is used to keep the consistency between the key in atlassian-plugin.xml and the key to generate bundle. -->
         <atlassian.plugin.key>${project.groupId}.${project.artifactId}</atlassian.plugin.key>
         <atlassian.spring.scanner.version>2.1.7</atlassian.spring.scanner.version>
+        <atlassian-rest-common.version>1.0.2</atlassian-rest-common.version>
+        <atlassian-plugins-webresource.version>3.7.4</atlassian-plugins-webresource.version>
+
         <commons.lang3.version>3.5</commons.lang3.version>
         <gson.version>2.8.0</gson.version>
+        <json.version>20190722</json.version>
+        <jaxb-api.version>2.3.1</jaxb-api.version>
+        <groovy-sandbox.version>1.27</groovy-sandbox.version>
+        <wink-client.version>1.4</wink-client.version>
+        <servlet-api.version>2.4</servlet-api.version>
         <javax.inject.version>1</javax.inject.version>
         <jsr311.version>1.1.1</jsr311.version>
-        <junit.libversion>4.12</junit.libversion>
-        <plugin.testrunner.version>2.0.1</plugin.testrunner.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-
-        <!-- Neus IQ Plugin -->
-        <clm.serverUrl>https://itsec.balgroupit.com/</clm.serverUrl>
-        <clm.applicationId>com.baloise.open.bitbucket.codefreeze</clm.applicationId>
     </properties>
 
     <dependencyManagement>
@@ -77,6 +77,13 @@
                 <groupId>com.atlassian.bitbucket.server</groupId>
                 <artifactId>bitbucket-parent</artifactId>
                 <version>${bitbucket.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>${junit.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -93,12 +100,12 @@
         <dependency>
             <groupId>org.kohsuke</groupId>
             <artifactId>groovy-sandbox</artifactId>
-            <version>1.27</version>
+            <version>${groovy-sandbox.version}</version>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>20190722</version>
+            <version>${json.version}</version>
         </dependency>
 
         <!--Applink integration-->
@@ -123,7 +130,7 @@
         <dependency>
             <groupId>com.atlassian.plugins</groupId>
             <artifactId>atlassian-plugins-webresource</artifactId>
-            <version>3.7.4</version>
+            <version>${atlassian-plugins-webresource.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -194,26 +201,25 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
-            <version>2.4</version>
+            <version>${servlet-api.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
-            <version>2.3.1</version>
+            <version>${jaxb-api.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.atlassian.plugins.rest</groupId>
             <artifactId>atlassian-rest-common</artifactId>
-            <version>1.0.2</version>
+            <version>${atlassian-rest-common.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.libversion}</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
         <!-- WIRED TEST RUNNER DEPENDENCIES -->
@@ -226,13 +232,13 @@
         <dependency>
             <groupId>org.apache.wink</groupId>
             <artifactId>wink-client</artifactId>
-            <version>1.4</version>
+            <version>${wink-client.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
-            <version>1.8.5</version>
+            <version>${mockito-all.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
