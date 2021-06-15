@@ -1,13 +1,16 @@
 name: Release
 
 on:
-  create:
+  push:
     tags:
       - '*'
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
 
     steps:
       - name: Checkout Source 🛎️
@@ -21,22 +24,14 @@ jobs:
       - name: Build with Maven 🔧
         run: mvn -B package --file pom.xml
 
-      - name: Copy artifacts
-        run: |
-          mkdir artifacts
-          cp target/*.jar artifacts/
-          cp target/*.obr artifacts/
-          ls artifacts
-
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
         with:
-          path: artifacts
-
-      - name: Get tag name
-        run: echo "TAG_NAME=$(echo ${GITHUB_REF#refs/*/} | tr / -)" >> $GITHUB_ENV
+          path: |
+            ./target/*.jar
+            ./target/*.obr
 
       - name: Release using Github CLI
-        run: gh release create ${GITHUB_REF##*/} ./target/*.jar -t "Release ${GITHUB_REF##*/}"
+        run: gh release create ${GITHUB_REF##*/} ./target/*.jar ./target/*.obr -t "Release ${GITHUB_REF##*/}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
