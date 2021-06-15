@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright 2021 Baloise Group
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+  -->
+
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2">
+  <plugin-info> 
+    <description>${project.description}</description>  
+    <version>${project.version}</version>  
+    <vendor name="${project.organization.name}" url="${project.organization.url}"/>  
+    <param name="plugin-icon">images/pluginLogo.png</param>  
+    <param name="plugin-logo">images/pluginLogo.png</param> 
+  </plugin-info>  
+  <!-- add our i18n resource -->  
+  <resource type="i18n" name="i18n" location="codefreeze"/>  
+  <!--Web items-->  
+  <!--Left hand panel-->
+<!--  Icon not used-->
+<!--  <web-item key="repository-plugin-tab" name="Repository navigation tab" section="bitbucket.repository.nav" weight="500">-->
+<!--    <label>Codefreeze</label>  -->
+<!--    <link>/plugins/servlet/codefreeze/repository/${repository.project.key}/${repository.slug}</link>  -->
+<!--    &lt;!&ndash; optional style for the icon: see https://design.atlassian.com/2.0/product/foundations/iconography for a list of available images &ndash;&gt;  -->
+<!--    <param name="iconClass" value="aui-icon-small icon-codefreeze"/>  -->
+<!--    <condition class="IsCodeFreezeHookEnabledCondition"/>-->
+<!--  </web-item>  -->
+  <!--Config tab of CodeFreeze in repository configuration-->  
+  <web-item key="codefreeze-repository-settings-plugin-tab" name="Repository settings navigation tab" section="bitbucket.repository.settings.panel/repository-pull-request-section" weight="500">
+    <label>Codefreeze plugin</label>  
+    <link>/plugins/servlet/codefreeze/repository/${repository.project.key}/${repository.slug}/settings</link>  
+    <condition class="com.baloise.open.bitbucket.codefreeze.condition.IsCodeFreezeHookEnabledCondition"/>
+  </web-item>  
+  <!--Config tab of IssueChecker in repository configuration-->  
+  <web-item key="issuechecker-repository-settings-plugin-tab" name="Repository settings navigation tab" section="bitbucket.repository.settings.panel/repository-pull-request-section" weight="501">
+    <label>IssueChecker plugin</label>  
+    <link>/plugins/servlet/issuechecker/repository/${repository.project.key}/${repository.slug}/settings</link>  
+    <condition class="com.baloise.open.bitbucket.issuechecker.condition.IsIssueCheckerEnabledCondition"/>
+  </web-item>  
+  <!-- add our web resources -->  
+  <web-resource key="codefreeze-user-select" name="codefreeze userselect resources"> 
+    <dependency>com.atlassian.auiplugin:ajs</dependency>  
+    <!--Auto complete multiselect        -->  
+    <dependency>com.atlassian.auiplugin:aui-select2</dependency>  
+    <resource type="download" name="userSelector.js" location="/js/userSelector.js"/>  
+    <resource type="download" name="codefreeze.css" location="/css/codefreeze.css"/>  
+    <resource type="download" name="icon.css" location="/css/icon.css"/>  
+    <resource type="download" name="codefreeze.js" location="/js/codefreeze.js"/>  
+    <resource type="download" name="icon-codefreeze.svg" location="/images/icon-codefreeze.svg"> 
+      <param name="content-type" value="image/svg+xml"/> 
+    </resource>  
+    <resource type="download" name="images/" location="/images"/>  
+    <context>codefreezeUserSelector</context> 
+  </web-resource>  
+  <!-- add our web resources -->  
+  <web-resource key="codefreeze-jira-field-select" name="codefreeze fieldselect resources">
+    <dependency>com.atlassian.auiplugin:ajs</dependency>  
+    <!--Auto complete multiselect        -->  
+    <dependency>com.atlassian.auiplugin:aui-select2</dependency>  
+    <resource type="download" name="fieldSelector.js" location="/js/fieldSelector.js"/>
+    <context>codefreezeJiraFieldSelector</context>
+  </web-resource>
+  <!-- add our web resources -->
+  <web-resource key="codefreeze-add-branch-dialog" name="codefreeze fieldselect resources">
+    <dependency>com.atlassian.auiplugin:ajs</dependency>
+    <!--Auto complete multiselect        -->
+    <resource type="download" name="addBranchDialog.js" location="/js/addBranchDialog.js"/>
+    <context>codefreezeAddBranchDialog</context>
+  </web-resource>
+  <web-resource key="codefreeze-resources" name="codefreeze Web Resources"> 
+    <!--Auto complete multiselect        -->  
+    <resource type="download" name="codefreeze.css" location="/css/codefreeze.css"/>  
+    <resource type="download" name="icon.css" location="/css/icon.css"/>  
+    <resource type="download" name="codefreeze.js" location="/js/codefreeze.js"/>  
+    <resource type="download" name="icon-codefreeze.svg" location="/images/icon-codefreeze.svg"> 
+      <param name="content-type" value="image/svg+xml"/> 
+    </resource>  
+    <resource type="download" name="images/" location="/images"/>  
+    <!--Needed to load .css for displaying icon-->  
+    <context>bitbucket.layout.repository</context> 
+  </web-resource>  
+  <!--Plugins hooks -->  
+  <!--configurable false means always on-->  
+  <repository-merge-check key="isAdminCodefreezeMergeCheck" class="bean:isAdminCodefreezeMergeCheck" name="CodeFreezeMergeCheck" configurable="true">
+    <description>Disable merges after codefreeze that do not have admin approval.</description>  
+    <scopes> 
+      <scope>repository</scope>  
+      <scope>project</scope> 
+    </scopes>  
+    <icon>/images/icon-codefreeze.svg</icon> 
+  </repository-merge-check>  
+  <repository-hook key="IsAfterCodeFreezeHook" class="bean:IsAfterCodeFreezeHook" name="CodeFreezePrePushHook" configurable="true"> 
+    <description>Rejects commits pushed to specific branch after code freeze.</description>  
+    <scopes> 
+      <scope>repository</scope>  
+      <scope>project</scope> 
+    </scopes>  
+    <icon>/images/icon-codefreeze.svg</icon> 
+  </repository-hook>
+<!--  IssueCheckerHooks-->
+  <repository-merge-check  key="IsIssueKeyCorrect" class="bean:IsIssueKeyCorrect" name="IssueCheckMergeHook" configurable="true">
+    <description>Use groovy script to validate issue fields contained in pull request.</description>
+    <scopes>
+      <scope>repository</scope>
+      <scope>project</scope>
+    </scopes>
+    <icon>/images/icon-codefreeze.svg</icon>
+  </repository-merge-check>
+  <!--Active Objects plugin config-->  
+  <ao key="ao"> 
+    <description>The module configuring the Active Objects service used by this plugin</description>  
+    <!--CodeFreeze entities -->  
+    <entity>com.baloise.open.bitbucket.codefreeze.persistence.CodeFreezeSetting</entity>
+    <entity>com.baloise.open.bitbucket.codefreeze.persistence.BranchFreeze</entity>
+    <!--JiraIssueChecker entities-->  
+    <entity>com.baloise.open.bitbucket.issuechecker.persistence.BranchIssueChecker</entity>
+    <entity>com.baloise.open.bitbucket.issuechecker.persistence.IssueCheckerSetting</entity>
+    <entity>com.baloise.open.bitbucket.issuechecker.persistence.WhiteListUser</entity>
+    <entity>com.baloise.open.bitbucket.issuechecker.persistence.WhiteListGroup</entity>
+    <entity>com.baloise.open.bitbucket.issuechecker.persistence.FieldIssueChecker</entity>
+  </ao>  
+  <!-- Client web resources -->  
+  <client-resource key="codefreeze-soy" name="Templates for CodeFreeze"> 
+    <directory location="/templates/"/>  
+    <dependency>com.atlassian.bitbucket.server.bitbucket-web:server-soy-templates</dependency>  
+    <dependency>com.atlassian.bitbucket.server.bitbucket-web-api:branch-selector-field</dependency>  
+    <dependency>ch.baloise.bitbucket.codefreeze:codefreeze-user-select</dependency>  
+    <dependency>ch.baloise.bitbucket.codefreeze:codefreezeUserSelector</dependency>
+    <dependency>ch.baloise.bitbucket.codefreeze:codefreezeJiraFieldSelector</dependency>
+  </client-resource>  
+  <!--Servlets -->  
+  <servlet name="CodeFreeze Repository Servlet" key="codefreeze-repository-servlet" class="com.baloise.open.bitbucket.codefreeze.servlet.CodeFreezeServlet">
+    <description key="codefreeze-repository-servlet.description">The Repository Servlet Plugin for CodeFreeze module</description>  
+    <url-pattern>/codefreeze/repository/*</url-pattern> 
+  </servlet>  
+  <rest key="BranchFreezeREST" path="/codefreeze" version="1.0"> 
+    <description>Provides a Rest service for so other components can CRUD codefreeze.</description> 
+  </rest>  
+  <servlet name="IssueChecker Repository Servlet" key="issuechecker-repository-servlet" class="com.baloise.open.bitbucket.issuechecker.servlet.IssueCheckerServlet">
+    <description key="issuechecker-repository-servlet.description">The Repository Servlet Plugin for CodeFreeze module</description>  
+    <url-pattern>/issuechecker/repository/*</url-pattern> 
+  </servlet>
+</atlassian-plugin>
