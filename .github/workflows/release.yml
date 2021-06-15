@@ -27,6 +27,7 @@ jobs:
           cp target/*.jar artifacts/
           cp target/*.obr artifacts/
           ls artifacts
+
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
         with:
@@ -35,8 +36,7 @@ jobs:
       - name: Get tag name
         run: echo "TAG_NAME=$(echo ${GITHUB_REF#refs/*/} | tr / -)" >> $GITHUB_ENV
 
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: Release using Github CLI
+        run: gh release create ${GITHUB_REF##*/} ./target/*.jar -t "Release ${GITHUB_REF##*/}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
