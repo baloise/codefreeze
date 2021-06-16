@@ -1,3 +1,5 @@
+[![DepShield Badge](https://depshield.sonatype.org/badges/baloise/codefreeze/depshield.svg)](https://depshield.github.io)
+
 # Codefreeze
 
 ## Short Documentation
