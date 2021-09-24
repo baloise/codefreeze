@@ -18,7 +18,7 @@
 
     <groupId>com.baloise.open.bitbucket</groupId>
     <artifactId>codefreeze</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2-SNAPSHOT</version>
     <packaging>atlassian-plugin</packaging>
 
     <ciManagement>
@@ -33,7 +33,7 @@
         <connection>scm:git:https://github.com/baloise/codefreeze.git</connection>
         <developerConnection>scm:git:https://github.com/baloise/codefreeze.git</developerConnection>
         <url>https://github.com/baloise/codefreeze.git</url>
-      <tag>codefreeze-1.0.1</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <name>codefreeze</name>
