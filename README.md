@@ -1,5 +1,7 @@
 # Codefreeze
 
+![Winterflake](docs/img/winter-icon-16.jpg )
+
 ![](https://github.com/baloise/codefreeze/actions/workflows/ci.yml/badge.svg)
 ![](https://github.com/baloise/codefreeze/actions/workflows/release.yml/badge.svg)
 [![DepShield Badge](https://depshield.sonatype.org/badges/baloise/codefreeze/depshield.svg)](https://depshield.github.io)
@@ -77,3 +79,6 @@ Example:
 
 ## Open Source
 This project is open source and follows the [Baloise Open Source Guidelines](https://baloise.github.io/open-source/docs/arc42/).
+
+# References
+* [Icon on Marketplace: Snowflake](https://www.google.com/url?sa=i&url=https%3A%2F%2Ficon-library.com%2Ficon%2Fwinter-icon-9.html&psig=AOvVaw2XKbclJVEHJhEad8hOdcq4&ust=1624008383274000&source=images&cd=vfe&ved=0CAkQjhxqFwoTCOjl6vWsnvECFQAAAAAdAAAAABAJ)
