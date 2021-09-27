@@ -49,7 +49,7 @@ public class IsIssueCheckerEnabledCondition implements Condition {
         if(repo != null) {
             Scope scope = new RepositoryScope(repo);
 
-            RepositoryHook mergeHook = repositoryHookService.getByKey(scope, "com.baloise.open.bitbucket.codefreeze::IsIssueKeyCorrect");
+            RepositoryHook mergeHook = repositoryHookService.getByKey(scope, "com.baloise.open.bitbucket.codefreeze:IsIssueKeyCorrect");
             mergeCheckActive = mergeHook != null && mergeHook.isEnabled();
         }
         return mergeCheckActive;

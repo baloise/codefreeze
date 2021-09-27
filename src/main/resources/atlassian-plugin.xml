@@ -129,9 +129,9 @@
     <directory location="/templates/"/>  
     <dependency>com.atlassian.bitbucket.server.bitbucket-web:server-soy-templates</dependency>  
     <dependency>com.atlassian.bitbucket.server.bitbucket-web-api:branch-selector-field</dependency>  
-    <dependency>com.baloise.open.bitbucket.codefreeze::codefreeze-user-select</dependency>
-    <dependency>com.baloise.open.bitbucket.codefreeze::codefreezeUserSelector</dependency>
-    <dependency>com.baloise.open.bitbucket.codefreeze::codefreezeJiraFieldSelector</dependency>
+    <dependency>com.baloise.open.bitbucket.codefreeze:codefreeze-user-select</dependency>
+    <dependency>com.baloise.open.bitbucket.codefreeze:codefreezeUserSelector</dependency>
+    <dependency>com.baloise.open.bitbucket.codefreeze:codefreezeJiraFieldSelector</dependency>
   </client-resource>  
   <!--Servlets -->  
   <servlet name="CodeFreeze Repository Servlet" key="codefreeze-repository-servlet" class="com.baloise.open.bitbucket.codefreeze.servlet.CodeFreezeServlet">
